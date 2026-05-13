@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Verify</title>
+<style>
+body{font-family:Arial;background:#0f172a;color:#e5e7eb;padding:30px}
+.box{max-width:800px;margin:auto;background:#111827;padding:20px;border-radius:12px}
+.ok{color:#22c55e}
+.bad{color:#ef4444}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>ICANTA5 Verification</h2>
+<div id="status">Loading...</div>
+<pre id="data"></pre>
+</div>
+
+<script>
+const id = new URLSearchParams(location.search).get("id");
+
+async function load(){
+try{
+const r = await fetch("./certificates/" + id + ".json");
+if(!r.ok) throw new Error();
+const d = await r.json();
+
+document.getElementById("status").innerHTML = "<b class='ok'>VALID</b>";
+document.getElementById("data").textContent = JSON.stringify(d,null,2);
+
+}catch(e){
+document.getElementById("status").innerHTML = "<b class='bad'>INVALID</b>";
+}
+}
+
+load();
+</script>
+</body>
+</html>
